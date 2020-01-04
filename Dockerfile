@@ -1,11 +1,13 @@
 FROM php:7.3-apache
+
 #RUN apt-get update && apt-get install -y libonig-dev libicu-dev libpq-dev openssl git zip unzip \
 #    && rm -r /var/lib/apt/lists/* 
 #RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd 
 #RUN docker-php-ext-install pdo intl mbstring openssl pcntl pdo_mysql pdo_pgsql pgsql zip opcache
 
 RUN apt-get update -y && apt-get install -y libonig-dev openssl zip unzip git
-RUN docker-php-ext-install pdo mbstring
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+RUN docker-php-ext-install pdo pdo_mysql mbstring
 
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
