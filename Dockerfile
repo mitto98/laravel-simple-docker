@@ -1,4 +1,4 @@
-FROM php:7.1.8-apache
+FROM php:7.4-apache
 
 RUN apt-get update && apt-get install -y \
       libicu-dev \
@@ -35,4 +35,6 @@ RUN sed -i -e "s/html/html\/public/g" /etc/apache2/sites-enabled/000-default.con
 # enable apache module rewrite
 RUN a2enmod rewrite
 
-
+ONBUILD COPY . $APP_HOME
+ONBUILD RUN composer install --no-interaction --optimize-autoloader --no-dev
+ONBUILD RUN chown -R www-data:www-data $APP_HOME
